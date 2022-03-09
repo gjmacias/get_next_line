@@ -14,6 +14,8 @@
 #include <unistd.h>
 #include <stdio.h>
 
+static unsigned long int	BUFFER_SIZE = 5;
+
 char	*ft_read(int fd, char *sue);
 
 char	*get_next_line(int fd)
@@ -28,12 +30,9 @@ char	*get_next_line(int fd)
 	save_until_enter = ft_read(fd, save_until_enter);
 	if (save_until_enter == NULL)
 		return (NULL);
-	my_line = (char *)malloc(sizeof(char) * (ft_strlen(save_until_enter) + 1));
+	my_line = ft_strchr(sue, '\n');
 	while (save_until_enter[i] != '\n')
-	{
-		my_line[i] = save_until_enter[i];
 		i++;
-	}
 	save_until_enter = &save_until_enter[i];
 	return (my_line);
 }
@@ -51,20 +50,28 @@ char	*ft_read(int fd, char *sue)
 		return (NULL);
 	}
 	sue = ft_strjoin(sue, temp);
+	printf("%s, %lu, aqui esta ftread\n", sue, ft_strlen(sue));
 	if (sue == NULL)
 	{
 		free(temp);
 		free(sue);
 		return (NULL);
 	}
-	while (*temp != '\0')
-	{
-		if (*temp == '\n')
-		{
-			return (sue);
-		}
+	while (*temp != '\0' || *temp != EOF || *temp != '\n')
 		temp++;
+	if (*temp != EOT || *temp != '\n')
+	{
+		free(temp);
+		return (ft_read(fd, sue));
 	}
 	free(temp);
-	return (ft_read(fd, sue));
+	return (sue);
+}
+
+int	main(void)
+{
+	int	fd = open("/home/gjmacias/ejercicios42/get_next_line/get_next_line/text.txt", O_RDONLY);
+	printf("%sel final", get_next_line(fd));
+	close(fd);
+	return (0);
 }

@@ -17,11 +17,10 @@ unsigned long int	ft_strlen(char *s)
 	unsigned long int	i;
 
 	i = 0;
-	while (*s)
-	{
-		s++;
+	if (!s)
+		return (0);
+	while (s[i] != '\0')
 		i++;
-	}
 	return (i);
 }
 
@@ -49,5 +48,28 @@ char	*ft_strjoin(char *s1, char *s2)
 		s[ft_strlen(s1) + i - 1] = s2[i - 1];
 	}
 	s[ft_strlen(s1) + i - 1] = '\0';
+	printf("%s, %i aqui acaba strjion\n", s, i);
 	return (s);
+}
+
+char	*ft_strchr(char *sue, int character)
+{
+	char	*final;
+	int	i;
+	int	j;
+
+	i = 0;	
+	j = 0;
+	while (sue[i] != character)
+		i++;
+	final = (char *)malloc((i + 1) * sizeof(char));
+	if (final == NULL)
+		return (NULL);
+	while (j <= i)
+	{
+		final[j] = sue[j];
+		j++;
+	}
+	final[j] = '\0';
+	return (final);
 }
