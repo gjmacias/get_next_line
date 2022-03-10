@@ -20,5 +20,5 @@ char				*ft_read(int fd, char *sue);
 char				*get_next_line(int fd);
 unsigned long int	ft_strlen(char *s);
 char				*ft_strjoin(char *s1, char *s2);
-
+char				*ft_strchr(char *sue, int character);
 #endif

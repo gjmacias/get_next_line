@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
-#include <stdio.h>
 
 unsigned long int	ft_strlen(char *s)
 {
@@ -29,11 +28,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	char	*s;
 	int		i;
 
-	if (s1 == NULL)
-	{
-		s1 = (char *)malloc(1 * sizeof(char));
-		s1[0] = '\0';
-	}
 	if (!s2)
 		return (NULL);
 	s = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
@@ -48,17 +42,16 @@ char	*ft_strjoin(char *s1, char *s2)
 		s[ft_strlen(s1) + i - 1] = s2[i - 1];
 	}
 	s[ft_strlen(s1) + i - 1] = '\0';
-	printf("%s, %i aqui acaba strjion\n", s, i);
 	return (s);
 }
 
 char	*ft_strchr(char *sue, int character)
 {
 	char	*final;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
-	i = 0;	
+	i = 0;
 	j = 0;
 	while (sue[i] != character)
 		i++;
