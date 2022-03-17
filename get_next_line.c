@@ -12,6 +12,9 @@
 #include "get_next_line.h"
 #include <unistd.h>
 #include <stdio.h>
+#include <fcntl.h>
+
+static int	BUFFER_SIZE = 5;
 
 char	*ft_read(int fd, char *sue);
 
@@ -37,8 +40,8 @@ char	*get_next_line(int fd)
 	my_line = ft_strchr(save_until_enter, '\n');
 	while (save_until_enter[i] != '\n')
 		i++;
-	save_until_enter = &save_until_enter[i];
-	return (my_line);
+	save_until_enter = &save_until_enter[i + 1];
+	return(my_line);
 }
 
 char	*ft_read(int fd, char *sue)
@@ -69,4 +72,14 @@ char	*ft_read(int fd, char *sue)
 	}
 	//free(temp);
 	return (sue);
+}
+
+int main(void)
+{
+	int fd;
+	fd = open("text.txt", O_RDONLY);
+	for(int i = 0; i < 5; i++)
+		printf("%s", get_next_line(fd));
+	close(fd);
+	return (0);
 }
