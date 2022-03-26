@@ -6,7 +6,7 @@
 /*   By: gmacias- <gmacias-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 18:29:46 by gmacias-          #+#    #+#             */
-/*   Updated: 2022/03/08 17:11:27 by gmacias-         ###   ########.fr       */
+/*   Updated: 2022/03/26 21:27:40 by gmacias-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-char				*ft_read(int fd, char *sue);
+char				*the_rest(char *save);
+char				*make_line_from(char *save);
+char				*read_until_enter(int fd, char *save);
 char				*get_next_line(int fd);
 unsigned long int	ft_strlen(char *s);
 char				*ft_strjoin(char *s1, char *s2);
-char				*ft_strchr(char *sue, int character);
+int					ft_strchr(char *sue, int character);
 #endif

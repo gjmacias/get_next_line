@@ -6,80 +6,93 @@
 /*   By: gmacias- <gmacias-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 18:29:29 by gmacias-          #+#    #+#             */
-/*   Updated: 2022/03/08 18:27:54 by gmacias-         ###   ########.fr       */
+/*   Updated: 2022/03/26 21:49:59 by gmacias-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <fcntl.h>
 
-static int	BUFFER_SIZE = 5;
+char	*the_rest(char *save)
+{
+	int		i;
+	int		n;
+	char	*new_save;
 
-char	*ft_read(int fd, char *sue);
+	i = 0;
+	while (save[i] != '\0' && save[i] != '\n')
+		i++;
+	if (save[i] == '\0')
+	{
+		free(save);
+		return (NULL);
+	}
+	new_save = malloc((ft_strlen(save) - i + 1) * sizeof(char));
+	i++;
+	n = 0;
+	while (save[i] != '\0')
+		new_save[n++] = save[i++];
+	new_save[n] = '\0';
+	free(save);
+	return (new_save);
+}
+
+char	*make_line_from(char *save)
+{
+	int		i;
+	char	*line;
+
+	i = 0;
+	if (save[i] == '\0')
+		return (NULL);
+	while (save[i] != '\0' && save[i - 1] != '\n')
+		i++;
+	line = malloc((i + 1) * sizeof(char));
+	if (!line)
+		return (NULL);
+	i = 0;
+	while (save[i] != '\0' && save[i - 1] != '\n')
+	{
+		line[i] = save[i];
+		i++;
+	}
+	line[i] = '\0';
+	return (line);
+}
+
+char	*read_until_enter(int fd, char *save)
+{
+	int		n_of_chars;
+	char	*temp;
+
+	temp = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!temp)
+		return (NULL);
+	n_of_chars = 1;
+	while (ft_strchr(save, '\n') != -1 && n_of_chars != 0)
+	{
+		n_of_chars = read(fd, temp, BUFFER_SIZE);
+		if (n_of_chars == -1)
+		{
+			free(temp);
+			return (NULL);
+		}
+		temp[n_of_chars] = '\0';
+		save = ft_strjoin(save, temp);
+	}
+	free(temp);
+	return (save);
+}
 
 char	*get_next_line(int fd)
 {
-	char				*my_line;
-	static char			*save_until_enter;
-	unsigned long int	i;
+	char		*line;
+	static char	*save;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (0);
-	i = 0;
-	if (save_until_enter == NULL)
-	{
-		my_line = (char *)malloc(sizeof(char));
-		my_line[0] = '\0';
-	}
-	else
-		my_line = save_until_enter;
-	save_until_enter = ft_read(fd, my_line);
-	if (save_until_enter == NULL)
 		return (NULL);
-	my_line = ft_strchr(save_until_enter, '\n');
-	while (save_until_enter[i] != '\n')
-		i++;
-	save_until_enter = &save_until_enter[i + 1];
-	return(my_line);
-}
-
-char	*ft_read(int fd, char *sue)
-{
-	char		*temp;
-
-	temp = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (temp == NULL)
+	save = read_until_enter(fd, save);
+	if (save == NULL)
 		return (NULL);
-	if (-1 == read(fd, temp, BUFFER_SIZE))
-	{
-		free(temp);
-		return (NULL);
-	}
-	sue = ft_strjoin(sue, temp);
-	if (sue == NULL)
-	{
-		free(temp);
-		free(sue);
-		return (NULL);
-	}
-	while (*temp != '\0' && *temp != EOF && *temp != '\n')
-		temp++;
-	if (*temp != EOF && *temp != '\n')
-	{
-		//free(temp);
-		return (ft_read(fd, sue));
-	}
-	//free(temp);
-	return (sue);
-}
-
-int main(void)
-{
-	int fd;
-	fd = open("text.txt", O_RDONLY);
-	for(int i = 0; i < 5; i++)
-		printf("%s", get_next_line(fd));
-	close(fd);
-	return (0);
+	line = make_line_from(save);
+	save = the_rest(save);
+	return (line);
 }
