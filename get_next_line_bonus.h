@@ -6,12 +6,12 @@
 /*   By: gmacias- <gmacias-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 18:29:46 by gmacias-          #+#    #+#             */
-/*   Updated: 2022/03/27 11:02:38 by gmacias-         ###   ########.fr       */
+/*   Updated: 2022/03/27 11:05:49 by gmacias-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # include <unistd.h>
 # include <stdlib.h>
