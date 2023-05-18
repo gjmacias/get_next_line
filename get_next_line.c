@@ -10,6 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
+char	*ft_free_strjoin(char *save, char *tmp)
+{
+	char	*new;
+
+	new = ft_strjoin(save, tmp);
+	free(save);
+	return (new);
+}
 
 char	*the_rest(char *save)
 {
@@ -25,12 +33,11 @@ char	*the_rest(char *save)
 		free(save);
 		return (NULL);
 	}
-	new_save = malloc((ft_strlen(save) - i + 1) * sizeof(char));
+	new_save = ft_calloc(char, (ft_strlen(save) - i + 1));
 	i++;
 	n = 0;
 	while (save[i] != '\0')
 		new_save[n++] = save[i++];
-	new_save[n] = '\0';
 	free(save);
 	return (new_save);
 }
@@ -43,42 +50,42 @@ char	*make_line_from(char *save)
 	i = 0;
 	if (save[i] == '\0')
 		return (NULL);
-	while (save[i] != '\0' && save[i - 1] != '\n')
+	while (save[i] != '\0' && save[i] != '\n')
 		i++;
-	line = malloc((i + 1) * sizeof(char));
-	if (!line)
-		return (NULL);
+	line = ft_calloc(char, (i + 2));
 	i = 0;
-	while (save[i] != '\0' && save[i - 1] != '\n')
+	while (save[i] != '\0' && save[i] != '\n')
 	{
 		line[i] = save[i];
 		i++;
-	}
-	line[i] = '\0';
+	if (save[i] != '\0' && save[i] != '\n')
+		line[i] = '\n';
 	return (line);
 }
 
 char	*read_until_enter(int fd, char *save)
 {
 	int		n_of_chars;
-	char	*temp;
+	char	*tmp;
 
-	temp = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!temp)
-		return (NULL);
+	if (!save)
+		save = ft_calloc(1, 1);
+	tmp = ft_calloc(char, BUFFER_SIZE + 1);
 	n_of_chars = 1;
-	while (ft_strchr(save, '\n') != -1 && n_of_chars != 0)
+	while (n_of_chars != 0)
 	{
-		n_of_chars = read(fd, temp, BUFFER_SIZE);
+		n_of_chars = read(fd, tmp, BUFFER_SIZE);
 		if (n_of_chars == -1)
 		{
-			free(temp);
+			free(tmp);
 			return (NULL);
 		}
-		temp[n_of_chars] = '\0';
-		save = ft_strjoin(save, temp);
+		tmp[n_of_chars] = '\0';
+		save = ft_free_strjoin(save, tmp);
+		if(!ft_strchr(save, '\n'))
+			break ;
 	}
-	free(temp);
+	free(tmp);
 	return (save);
 }
 
