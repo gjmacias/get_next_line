@@ -6,10 +6,11 @@
 /*   By: gmacias- <gmacias-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 18:29:29 by gmacias-          #+#    #+#             */
-/*   Updated: 2022/03/26 21:49:59 by gmacias-         ###   ########.fr       */
+/*   Updated: 2023/05/18 16:58:40 by gmacias-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
+
 char	*ft_free_strjoin(char *save, char *tmp)
 {
 	char	*new;
@@ -33,7 +34,7 @@ char	*the_rest(char *save)
 		free(save);
 		return (NULL);
 	}
-	new_save = ft_calloc(char, (ft_strlen(save) - i + 1));
+	new_save = ft_calloc(sizeof(char), (ft_strlen(save) - i + 1));
 	i++;
 	n = 0;
 	while (save[i] != '\0')
@@ -52,13 +53,14 @@ char	*make_line_from(char *save)
 		return (NULL);
 	while (save[i] != '\0' && save[i] != '\n')
 		i++;
-	line = ft_calloc(char, (i + 2));
+	line = ft_calloc(sizeof(char), (i + 2));
 	i = 0;
 	while (save[i] != '\0' && save[i] != '\n')
 	{
 		line[i] = save[i];
 		i++;
-	if (save[i] != '\0' && save[i] != '\n')
+	}
+	if (save[i] != '\0' && save[i] == '\n')
 		line[i] = '\n';
 	return (line);
 }
@@ -70,19 +72,20 @@ char	*read_until_enter(int fd, char *save)
 
 	if (!save)
 		save = ft_calloc(1, 1);
-	tmp = ft_calloc(char, BUFFER_SIZE + 1);
+	tmp = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	n_of_chars = 1;
-	while (n_of_chars != 0)
+	while (n_of_chars > 0)
 	{
 		n_of_chars = read(fd, tmp, BUFFER_SIZE);
 		if (n_of_chars == -1)
 		{
 			free(tmp);
+			free(save);
 			return (NULL);
 		}
 		tmp[n_of_chars] = '\0';
 		save = ft_free_strjoin(save, tmp);
-		if(!ft_strchr(save, '\n'))
+		if (ft_strchr(save, '\n'))
 			break ;
 	}
 	free(tmp);
@@ -94,7 +97,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	static char	*save;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
 	save = read_until_enter(fd, save);
 	if (save == NULL)

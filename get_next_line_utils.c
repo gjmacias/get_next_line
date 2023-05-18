@@ -6,7 +6,7 @@
 /*   By: gmacias- <gmacias-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 18:46:04 by gmacias-          #+#    #+#             */
-/*   Updated: 2022/03/26 21:47:30 by gmacias-         ###   ########.fr       */
+/*   Updated: 2023/05/18 16:50:43 by gmacias-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -35,7 +35,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	i = -1;
 	while (s2[++i] != '\0')
 		s[ft_strlen(s1) + i] = s2[i];
-	s[ft_strlen(s1) + ft_strlen(s2)  + i] = '\0';
+	s[ft_strlen(s1) + i] = '\0';
 	return (s);
 }
 
@@ -43,8 +43,6 @@ char	*ft_strchr(char *save, int character)
 {
 	unsigned long int	i;
 
-	if (save == NULL)
-		return (NULL);
 	i = 0;
 	while (save[i] != character && save[i] != '\0')
 		i++;
@@ -55,9 +53,9 @@ char	*ft_strchr(char *save, int character)
 
 void	ft_bzero(void *str, unsigned long int n)
 {
-	char			*s;
+	char				*s;
 	unsigned long int	i;
-	
+
 	s = (char *)str;
 	i = 0;
 	while (i < n)
@@ -66,8 +64,8 @@ void	ft_bzero(void *str, unsigned long int n)
 
 void	*ft_calloc(unsigned long int size, unsigned long int c)
 {
-	char *result;
-	
+	char	*result;
+
 	result = malloc(size * c);
 	if (!result)
 		return (NULL);
