@@ -4,20 +4,20 @@ El objetivo de este proyecto es simple: programar una función que de vuelva una
 * [Que es get_next_line?](#que-es-get_next_line)
 * [Que utilizamos?](#que-utilizamos)
 * [Como funciona?](#como-funciona)
-* [Como utilizamos la libreria?](#como-utilizamos-la-libreria)
+* [Como utilizamos la función?](#como-utilizamos-la-función)
 
 ### Que es get_next_line?
 get_next_line es un projecto de [42][1] donde creamos una función capaz de leer, linea por linea, un archivo cada vez que
 se llame a la funcion.
 
-<b>El rototipo de la función debe ser la siguiente:</b>
+<b>El prototipo de la función debe ser la siguiente:</b>
 
 ```C
 char	*get_next_line(int fd)
 ```
 
 ### Que utilizamos?
-En nuestro ft_printf tenemos solo las siguentes funciones de librerias externas autorizadas:
+En nuestro get_next_line tenemos solo las siguentes funciones de librerias externas autorizadas:
 
 | Función  | Descripción														 			|
 |-------|-----------------------------------------------------------------------------------|
@@ -28,17 +28,28 @@ En nuestro ft_printf tenemos solo las siguentes funciones de librerias externas 
 
 ### Como funciona?
 
-La meta es crear una libreria que contenga todo nuestro codigo para poder utilizarlo en futuros proyectos llamado: *libftprintf.a*
+como he comentado a esta función le envias el file descriptor para leer linea por linea, por ejemplo, si tenemos un archivo
+llamado `textoprueba.txt` y tengo el siguiente contenido:  
 
-Para crear esta libreria seguimos los siguientes pasos:
+	linea1  
+ 	linea2  
+  	linea3
 
-	git clone https://github.com/gjmacias/ft_printf
-	cd ft_printf
-	make
+Cada vez que llamemos a la función (utilizando el **F**ile**D**escriptor de `textoprueba.txt`)imprimirá una linea:
+```C
+printf(%s,get_next_line(int fd);
+printf(%s,get_next_line(int fd);
+printf(%s,get_next_line(int fd);
+printf(%s,get_next_line(int fd);
+```
+Output:
 
-Al revisar el directorio, en alguna parte encontraras la libreria: *libftprintf.a*
+	linea1  //lee la primera linea
+	linea2  //lee la segunda linea
+	linea3  //lee la tercera linea
+	(null)  //devuelve NULL por que ha llegado al final del archivo (EOF)
 
-### Como utilizamos la libreria?
+### Como utilizamos la función?
 
 Para utilizarlo primero debes de  tener la libreria: *libftprintf.a*.
 Luego debes añadirlo en el compilador, primero la ruta de libftprintf.a y luego el nombre de la libreria
