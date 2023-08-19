@@ -51,15 +51,14 @@ Output:
 
 ### Como utilizamos la función?
 
-Para utilizarlo primero debes de  tener la libreria: *libftprintf.a*.
-Luego debes añadirlo en el compilador, primero la ruta de libftprintf.a y luego el nombre de la libreria
+Para utilizarlo primero debes saber la ruta de la funcion y utilizar el archivo .h de esta función. Luego añadirlo en el
+encabezado de tu programa:
 
-`gcc archivos.c -L<ruta de libftprintf.a> -lftprintf`
+```C
+#include "./<carpeta_de_get_next_line>/get_next_line.h"
+```
 
--L tomara la ubicacion de la libreria<br>
--l tomara el nombre de la libreria. en este caso seran los caracteres que vegan despues de `lib` de tu libreria.
-
-y eso seria todo!
+y eso ya estaría listo para usar!
 
 # Quizás pueda interesarte!
 
