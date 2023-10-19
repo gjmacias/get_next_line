@@ -60,7 +60,7 @@ char	*make_line_from(char *save)
 		line[i] = save[i];
 		i++;
 	}
-	if (save[i] != '\0' && save[i] == '\n')
+	if (save[i] == '\0' || save[i] == '\n')
 		line[i] = '\n';
 	return (line);
 }
